@@ -105,12 +105,16 @@ class BooksApp extends React.Component {
     this.setState({
       query,
     })
-    if (query.trim()) {
-      const result = await BooksAPI.search(query)
-      this.setState(() => ({
-        searchResults: !result.error ? result : [],
-      }))
+    if (!query.trim()) {
+      this.setState({
+        searchResults: [],
+      })
+      return
     }
+    const result = await BooksAPI.search(query)
+    this.setState(() => ({
+      searchResults: !result.error ? result : [],
+    }))
   }
 
   handleOnSearch = (value) => {

@@ -3,16 +3,12 @@ import PropTypes from 'prop-types'
 import BookShelf from './BookShelf'
 import { Link } from 'react-router-dom'
 
-const filterBooksByShelfType = (books, shelfType) =>
-  books.filter((book) => book.shelf === shelfType)
-
 const ListBooks = ({ books, onMoveBook }) => {
-  const currentlyReadingBooks = filterBooksByShelfType(
-    books,
-    'currentlyReading'
-  )
-  const readBooks = filterBooksByShelfType(books, 'read')
-  const wantToReadBooks = filterBooksByShelfType(books, 'wantToRead')
+  const shelves = [
+    { title: 'Currently Reading', type: 'currentlyReading' },
+    { title: 'Want to Read', type: 'wantToRead' },
+    { title: 'Read', type: 'read' },
+  ]
   return (
     <div className="list-books">
       <div className="list-books-title">
@@ -20,17 +16,14 @@ const ListBooks = ({ books, onMoveBook }) => {
       </div>
       <div className="list-books-content">
         <div>
-          <BookShelf
-            title="Currently Reading"
-            books={currentlyReadingBooks}
-            onMoveBook={onMoveBook}
-          />
-          <BookShelf
-            title="Want to Read"
-            books={wantToReadBooks}
-            onMoveBook={onMoveBook}
-          />
-          <BookShelf title="Read" books={readBooks} onMoveBook={onMoveBook} />
+          {shelves.map((shelf) => (
+            <BookShelf
+              title={shelf.title}
+              type={shelf.type}
+              books={books}
+              onMoveBook={onMoveBook}
+            />
+          ))}
         </div>
       </div>
       <div className="open-search">
